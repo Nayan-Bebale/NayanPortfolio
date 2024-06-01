@@ -71,7 +71,7 @@
           <h2>Portfoio Details</h2>
           <ol>
             <li><a href="{{ url_for('index') }}">Home</a></li>
-            <li>Portfoio Details</li>
+            <li>Achievement Details</li>
           </ol>
         </div>
 
@@ -89,19 +89,9 @@
               <div class="swiper-wrapper align-items-center">
 
                 <div class="swiper-slide">
-                  <img src="{{ url_for('static', filename='images/' ~ project.image1) }}" alt="">
+                  <img src="{{ url_for('static', filename='images/' ~ data.image) }}" alt="">
                 </div>
-
-                <div class="swiper-slide">
-                  <img src="{{ url_for('static', filename='images/' ~ project.image2) }}" alt="">
-                </div>
-
-                <div class="swiper-slide">
-                  <img src="{{ url_for('static', filename='images/' ~ project.image3) }}" alt="">
-                </div>
-
               </div>
-              <div class="swiper-pagination"></div>
             </div>
           </div>
 
@@ -109,23 +99,19 @@
             <div class="portfolio-info">
               <h3>Project information</h3>
               <ul>
-                <li><strong>Name</strong>: {{project.name}}</li>
-                <li><strong>Category</strong>: {{project.category}}</li>
-                <li><strong>Project URL</strong>: <a href="{{project.website_link}}">{{project.website_link|truncate(20)}}</a></li>
-                {% if project.github_link %}
-                <li><strong>Git URL</strong>: <a href="{{project.github_link}}">{{project.github_link}}</a></li>
-                {% endif %}
+                <li><strong>Name</strong>: {{data.name}}</li>
+                <li><strong>Organization</strong>: {{data.organization}}</li>
+                <li><strong>Date</strong>: {{data.date}}</li>
               </ul>
             </div>
             <div class="portfolio-description">
               <h2>About Project Details</h2>
-              <p>{{ project.description|safe }}</p>
-
+              <p>{{ data.description|safe }}</p>
             </div>
 
           {% if session.get('admin') %}
-            <form action="{{ url_for('delete_project', project_id=project.id) }}" method="post">
-                <button type="submit" class="btn btn-danger">Delete Project</button>
+            <form action="{{ url_for('delete_achivement', achievement_id=data.id) }}" method="post">
+                <button type="submit" class="btn btn-danger">Delete Achievement</button>
             </form>
           {% endif %}
           </div>

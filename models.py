@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), nullable=False)
@@ -16,3 +17,15 @@ class Project(db.Model):
 
     def __repr__(self):
         return f'<Project {self.name}>'
+
+
+class Achievement(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), nullable=False)
+    organization = db.Column(db.String(120), nullable=False)
+    date = db.Column(db.String(120), nullable=False)
+    description = db.Column(db.Text, nullable=True)
+    image = db.Column(db.String(200), nullable=True)
+
+    def __repr__(self):
+        return f'<Achievement {self.name}>'

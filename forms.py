@@ -19,3 +19,13 @@ class ProjectForm(FlaskForm):
         ('other', 'Other')
     ], validators=[DataRequired()])
     submit = SubmitField('Add Project')
+
+
+
+class AchievementForm(FlaskForm):
+    name = StringField('Certificate Name', validators=[DataRequired()])
+    organization = StringField('Issuing Organization', validators=[DataRequired()])
+    date = StringField('Date', validators=[DataRequired()])
+    description = TextAreaField('Description')
+    image = FileField('Certificate Image', validators=[FileAllowed(['jpg', 'png', 'jpeg'], 'Images only!')])
+    submit = SubmitField('Add Achievement')

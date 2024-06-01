@@ -4,7 +4,7 @@ from flask_session import Session
 from flask_mail import Mail, Message
 from flask_uploads import configure_uploads, IMAGES, UploadSet
 from config import Config
-from models import db, Project
+from models import db, Project, Achievement
 
 mail = Mail()
 images = UploadSet('images', IMAGES)
@@ -25,12 +25,14 @@ def create_app():
 
     @app.route('/')
     def index():
+        achievements = Achievement.query.all()
+
         web_projects = Project.query.filter(Project.category.contains('web')).all()
         app_projects = Project.query.filter(Project.category.contains('app')).all()
         other_projects = Project.query.filter(Project.category.contains('other')).all()
 
         return render_template('index.html', web_projects=web_projects,
-                               app_projects=app_projects, other_projects=other_projects)
+                               app_projects=app_projects, other_projects=other_projects, achievements=achievements)
 
     @app.route('/details/<project>')
     def details(project):
@@ -102,9 +104,49 @@ def create_app():
         # Redirect to the home page or any other relevant page
         return redirect(url_for('index'))
 
-    @app.route('/check')
-    def check():
-        return render_template('inner-page.html')
+    @app.route('/add_achievement', methods=['GET', 'POST'])
+    def add_achievement():
+        if not session.get('admin'):
+            flash('You are not authorized to perform this action.', 'danger')
+            return redirect(url_for('index'))
+        from forms import AchievementForm
+        form = AchievementForm()
+        if form.validate_on_submit():
+            image_filename = images.save(form.image.data) if form.image.data else None
+
+            achievement = Achievement(
+                name=form.name.data,
+                organization=form.organization.data,
+                date=form.date.data,
+                description=form.description.data,
+                image=image_filename
+            )
+            db.session.add(achievement)
+            db.session.commit()
+            flash('Achievement has been added!', 'success')
+            return redirect(url_for('add_achievement'))
+        return render_template('add_achievement.html', form=form)
+
+    @app.route('/achievement_detail/<int:achievement>')
+    def achievement_detail(achievement):
+        achievement = Achievement.query.get_or_404(achievement)
+        return render_template('activement-detail.html', data=achievement)
+
+    @app.route('/delete_achievement/<int:achievement_id>', methods=['POST'])
+    def delete_achivement(achievement_id):
+        if not session.get('admin'):
+            flash('You are not authorized to perform this action.', 'danger')
+            return redirect(url_for('index'))
+
+        # Retrieve the project from the database
+        achievement = Achievement.query.get_or_404(achievement_id)
+
+        # Delete the project from the database
+        db.session.delete(achievement)
+        db.session.commit()
+
+        # Redirect to the home page or any other relevant page
+        return redirect(url_for('index'))
 
     return app
 
