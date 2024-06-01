@@ -1,64 +1,114 @@
 import os
-from flask import Flask, render_template, request, flash, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, request, flash, redirect, url_for, session
+from flask_session import Session
 from flask_mail import Mail, Message
-from data import data
+from flask_uploads import configure_uploads, IMAGES, UploadSet
+from config import Config
+from models import db, Project
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get("secret_key")
-
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
-
-# Configurations for Flask-Mail
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.environ.get('main_mail')
-app.config['MAIL_PASSWORD'] = os.environ.get('mail_password')
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('main_mail')
-
-db = SQLAlchemy(app)
-mail = Mail(app)
+mail = Mail()
+images = UploadSet('images', IMAGES)
 
 
-@app.route('/')
-def index():
-    return render_template('index.html', data=data)
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+    app.config['SESSION_TYPE'] = 'filesystem'  # Using the filesystem for simplicity
+    Session(app)
 
+    db.init_app(app)
+    mail.init_app(app)
+    configure_uploads(app, images)
 
-@app.route('/details/<project>')
-def details(project):
-    project = data[project]
-    return render_template('portfolio-details.html', project=project)
+    with app.app_context():
+        db.create_all()
 
+    @app.route('/')
+    def index():
+        web_projects = Project.query.filter(Project.category.contains('web')).all()
+        app_projects = Project.query.filter(Project.category.contains('app')).all()
+        other_projects = Project.query.filter(Project.category.contains('other')).all()
 
-@app.route('/send_message', methods=['GET', 'POST'])
-def send_message():
-    if request.method == 'POST':
-        name = request.form['name']
-        email = request.form['email']
-        subject = request.form['subject']
-        message_body = request.form['message']
+        return render_template('index.html', web_projects=web_projects,
+                               app_projects=app_projects, other_projects=other_projects)
 
-        msg = Message(subject,
-                      sender=email,
-                      recipients=[app.config['MAIL_USERNAME']],
-                      body=f"Name: {name}\nEmail: {email}\n\n{message_body}")
+    @app.route('/details/<project>')
+    def details(project):
+        project = Project.query.get_or_404(project)
+        return render_template('portfolio-details.html', project=project)
 
-        try:
-            mail.send(msg)
-            flash('Your message has been sent successfully!', 'success')
-        except Exception as e:
-            flash(f'Failed to send message. Error: {str(e)}', 'danger')
+    @app.route('/send_message', methods=['GET', 'POST'])
+    def send_message():
+        if request.method == 'POST':
+            name = request.form['name']
+            email = request.form['email']
+            subject = request.form['subject']
+            message_body = request.form['message']
 
-    return redirect('/')
+            msg = Message(subject,
+                          sender=email,
+                          recipients=[app.config['MAIL_USERNAME']],
+                          body=f"Name: {name}\nEmail: {email}\n\n{message_body}")
 
+            try:
+                mail.send(msg)
+                flash('Your message has been sent successfully!', 'success')
+            except Exception as e:
+                flash(f'Failed to send message. Error: {str(e)}', 'danger')
 
-@app.route('/check')
-def check():
-    return render_template('inner-page.html')
+        return redirect('/')
+
+    @app.route('/add_project', methods=['GET', 'POST'])
+    def add_project():
+        if not session.get('admin'):
+            flash('You are not authorized to perform this action.', 'danger')
+            return redirect(url_for('index'))
+        from forms import ProjectForm
+        form = ProjectForm()
+        if form.validate_on_submit():
+            image1_filename = images.save(form.image1.data)
+            image2_filename = images.save(form.image2.data) if form.image2.data else None
+            image3_filename = images.save(form.image3.data) if form.image3.data else None
+
+            project = Project(
+                name=form.name.data,
+                website_link=form.website_link.data,
+                image1=image1_filename,
+                image2=image2_filename,
+                image3=image3_filename,
+                description=form.description.data,
+                github_link=form.github_link.data,
+                category=','.join(form.category.data)
+            )
+            db.session.add(project)
+            db.session.commit()
+            flash('Project has been added!', 'success')
+            return redirect(url_for('add_project'))
+        return render_template('add_project.html', form=form)
+
+    @app.route('/delete_project/<int:project_id>', methods=['POST'])
+    def delete_project(project_id):
+        if not session.get('admin'):
+            flash('You are not authorized to perform this action.', 'danger')
+            return redirect(url_for('index'))
+
+        # Retrieve the project from the database
+        project = Project.query.get_or_404(project_id)
+
+        # Delete the project from the database
+        db.session.delete(project)
+        db.session.commit()
+
+        # Redirect to the home page or any other relevant page
+        return redirect(url_for('index'))
+
+    @app.route('/check')
+    def check():
+        return render_template('inner-page.html')
+
+    return app
 
 
 if __name__ == "__main__":
-    db.create_all()
+    app = create_app()
     app.run(debug=True, host="localhost", port=5000)

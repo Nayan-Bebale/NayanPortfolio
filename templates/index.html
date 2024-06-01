@@ -108,7 +108,7 @@
 
         <div class="section-title">
           <h2>Skills</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <p>I possess foundational expertise in Python, Django, Flask, SQL, and REST APIs, complemented by proficiency in HTML, CSS, and JavaScript. My database skills encompass MySQL and SQLite, while my familiarity with Django ORM strengthens my capabilities. As a fresher, I'm eager to apply and enhance these skills in real-world scenarios.</p>
         </div>
 
         <div class="row skills-content">
@@ -284,26 +284,56 @@
             <ul id="portfolio-flters">
               <li data-filter="*" class="filter-active">All</li>
               <li data-filter=".filter-app">App</li>
-              <li data-filter=".filter-card">Card</li>
-              <li data-filter=".filter-web">Web</li>
+               <li data-filter=".filter-web">Web</li>
+              <li data-filter=".filter-card">Other</li>
             </ul>
           </div>
         </div>
 
         <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="100">
-          {% for key, value in data.items() %}
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-              <div class="portfolio-wrap">
-                  <div class="portfolio-images">
-                      <img src="{{ url_for('static', filename=value['images'][0]) }}" class="img-fluid" alt="">
-                  </div>
-                  <div class="portfolio-links">
-                      <a href="{{ url_for('static', filename=value['images'][0]) }}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="{{ value.name }}"><i class="bx bx-plus"></i></a>
-                      <a href="{{ url_for('details', project=key) }}" title="More Details"><i class="bx bx-link"></i></a>
-                  </div>
-              </div>
-          </div>
-      {% endfor %}
+
+        {% for project in web_projects %}
+                <div class="col-lg-4 col-md-6 portfolio-item filter-web">
+                    <div class="portfolio-wrap">
+                        <div class="portfolio-images">
+                            <img src="{{ url_for('static', filename='images/' ~ project.image1) }}" class="img-fluid" alt="">
+                        </div>
+                        <div class="portfolio-links">
+                            <a href="{{ url_for('static', filename='images/' ~ project.image1) }}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="{{ project.name }}"><i class="bx bx-plus"></i></a>
+                            <a href="{{ url_for('details', project=project.id) }}" title="More Details"><i class="bx bx-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            {% for project in app_projects %}
+                <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                    <div class="portfolio-wrap">
+                        <div class="portfolio-images">
+                            <img src="{{ url_for('static', filename='images/' ~ project.image1) }}" class="img-fluid" alt="">
+                        </div>
+                        <div class="portfolio-links">
+                            <a href="{{ url_for('static', filename='images/' ~ project.image1) }}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="{{ project.name }}"><i class="bx bx-plus"></i></a>
+                            <a href="{{ url_for('details', project=project.id) }}" title="More Details"><i class="bx bx-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+            {% for project in other_projects %}
+                <div class="col-lg-4 col-md-6 portfolio-item filter-other">
+                    <div class="portfolio-wrap">
+                        <div class="portfolio-images">
+                            <img src="{{ url_for('static', filename='images/' ~ project.image1) }}" class="img-fluid" alt="">
+                        </div>
+                        <div class="portfolio-links">
+                            <a href="{{ url_for('static', filename='images/' ~ project.image1) }}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="{{ project.name }}"><i class="bx bx-plus"></i></a>
+                            <a href="{{ url_for('details', project=project.id) }}" title="More Details"><i class="bx bx-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
         </div>
 
       </div>
@@ -368,7 +398,8 @@
               <div class="text-center"><button type="submit">Send Message</button></div>
           </form>
       </div>
-  </div>
+
+        </div>
   <!-- Flash messages -->
   {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
@@ -387,43 +418,43 @@
     </section><!-- End Contact Section -->
 
     <!-- ======== Certificate Section ======= -->
-    <section id="certificate" class="portfolio section-bg">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Certificates</h2>
-          <p>Dedicated to delivering excellence, I approach each project with unwavering commitment, ensuring timely completion and exceeding expectations. With a passion for innovation, I tackle challenges head-on, crafting solutions that make a tangible impact.</p>
-        </div>
-
-        <div class="row" data-aos="fade-up">
-          <div class="col-lg-12 d-flex justify-content-center">
-            <ul id="portfolio-flters">
-              <li data-filter="*" class="filter-active">All</li>
-              <li data-filter=".filter-programming">Programming</li>
-              <li data-filter=".filter-database">DataBase and Other</li>
-              <li data-filter=".filter-hackathons">Hackathons</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="100">
-          {% for key, value in data.items() %}
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-              <div class="portfolio-wrap">
-                  <div class="portfolio-images">
-                      <img src="{{ url_for('static', filename=value['images'][0]) }}" class="img-fluid" alt="">
-                  </div>
-                  <div class="portfolio-links">
-                      <a href="{{ url_for('static', filename=value['images'][0]) }}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="{{ value.name }}"><i class="bx bx-plus"></i></a>
-                      <a href="{{ url_for('details', project=key) }}" title="More Details"><i class="bx bx-link"></i></a>
-                  </div>
-              </div>
-          </div>
-      {% endfor %}
-        </div>
-
-      </div>
-    </section><!-- End Certificate Section -->
+{#    <section id="certificate" class="portfolio section-bg">#}
+{#      <div class="container">#}
+{##}
+{#        <div class="section-title">#}
+{#          <h2>Certificates</h2>#}
+{#          <p>Dedicated to delivering excellence, I approach each project with unwavering commitment, ensuring timely completion and exceeding expectations. With a passion for innovation, I tackle challenges head-on, crafting solutions that make a tangible impact.</p>#}
+{#        </div>#}
+{##}
+{#        <div class="row" data-aos="fade-up">#}
+{#          <div class="col-lg-12 d-flex justify-content-center">#}
+{#            <ul id="portfolio-flters">#}
+{#              <li data-filter="*" class="filter-active">All</li>#}
+{#              <li data-filter=".filter-programming">Programming</li>#}
+{#              <li data-filter=".filter-database">DataBase and Other</li>#}
+{#              <li data-filter=".filter-hackathons">Hackathons</li>#}
+{#            </ul>#}
+{#          </div>#}
+{#        </div>#}
+{##}
+{#        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="100">#}
+{#          {% for project in data %}#}
+{#          <div class="col-lg-4 col-md-6 portfolio-item filter-app">#}
+{#              <div class="portfolio-wrap">#}
+{#                  <div class="portfolio-images">#}
+{#                      <img src="{{ url_for('static', filename=value['images'][0]) }}" class="img-fluid" alt="">#}
+{#                  </div>#}
+{#                  <div class="portfolio-links">#}
+{#                      <a href="{{ url_for('static', filename=value['images'][0]) }}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="{{ value.name }}"><i class="bx bx-plus"></i></a>#}
+{#                      <a href="{{ url_for('details', project=key) }}" title="More Details"><i class="bx bx-link"></i></a>#}
+{#                  </div>#}
+{#              </div>#}
+{#          </div>#}
+{#      {% endfor %}#}
+{#        </div>#}
+{##}
+{#      </div>#}
+{#    </section><!-- End Certificate Section -->#}
 
   </main><!-- End #main -->
 
