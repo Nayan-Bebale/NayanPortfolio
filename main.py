@@ -21,6 +21,16 @@ with app.app_context():
     db.create_all()
 
 
+@app.route('/set_admin')
+def set_admin():
+    key = request.args.get('key')
+    if key and key == app.config['ADMIN_KEY']:
+        session['admin'] = True
+        return 'Admin session set!'
+    else:
+        return 'Invalid key!', 403
+
+
 @app.route('/')
 def index():
     achievements = Achievement.query.all()

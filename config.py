@@ -12,3 +12,4 @@ class Config:
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER = os.environ.get('MAIL_USERNAME')
     UPLOADED_IMAGES_DEST = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'static/images')
+    ADMIN_KEY = os.environ.get('ADMIN_KEY')
