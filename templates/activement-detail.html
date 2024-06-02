@@ -110,7 +110,7 @@
             </div>
 
           {% if session.get('admin') %}
-            <form action="{{ url_for('delete_achivement', achievement_id=data.id) }}" method="post">
+            <form action="{{ url_for('delete_achievement', achievement_id=data.id) }}" method="post">
                 <button type="submit" class="btn btn-danger">Delete Achievement</button>
             </form>
           {% endif %}

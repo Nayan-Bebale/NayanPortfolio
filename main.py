@@ -1,24 +1,23 @@
+# main.py
 import os
 from flask import Flask, render_template, request, flash, redirect, url_for, session
 from flask_session import Session
 from flask_mail import Mail, Message
-from flask_uploads import configure_uploads, IMAGES, UploadSet
+from werkzeug.utils import secure_filename
 from config import Config
 from models import db, Project, Achievement
+from forms import ProjectForm, AchievementForm
 
 mail = Mail()
-images = UploadSet('images', IMAGES)
-
 
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-    app.config['SESSION_TYPE'] = 'filesystem'  # Using the filesystem for simplicity
+    app.config['SESSION_TYPE'] = 'filesystem'
     Session(app)
 
     db.init_app(app)
     mail.init_app(app)
-    configure_uploads(app, images)
 
     with app.app_context():
         db.create_all()
@@ -65,12 +64,18 @@ def create_app():
         if not session.get('admin'):
             flash('You are not authorized to perform this action.', 'danger')
             return redirect(url_for('index'))
-        from forms import ProjectForm
         form = ProjectForm()
         if form.validate_on_submit():
-            image1_filename = images.save(form.image1.data)
-            image2_filename = images.save(form.image2.data) if form.image2.data else None
-            image3_filename = images.save(form.image3.data) if form.image3.data else None
+            image1_filename = secure_filename(form.image1.data.filename)
+            form.image1.data.save(os.path.join(app.config['UPLOADED_IMAGES_DEST'], image1_filename))
+
+            image2_filename = secure_filename(form.image2.data.filename) if form.image2.data else None
+            if image2_filename:
+                form.image2.data.save(os.path.join(app.config['UPLOADED_IMAGES_DEST'], image2_filename))
+
+            image3_filename = secure_filename(form.image3.data.filename) if form.image3.data else None
+            if image3_filename:
+                form.image3.data.save(os.path.join(app.config['UPLOADED_IMAGES_DEST'], image3_filename))
 
             project = Project(
                 name=form.name.data,
@@ -94,14 +99,9 @@ def create_app():
             flash('You are not authorized to perform this action.', 'danger')
             return redirect(url_for('index'))
 
-        # Retrieve the project from the database
         project = Project.query.get_or_404(project_id)
-
-        # Delete the project from the database
         db.session.delete(project)
         db.session.commit()
-
-        # Redirect to the home page or any other relevant page
         return redirect(url_for('index'))
 
     @app.route('/add_achievement', methods=['GET', 'POST'])
@@ -109,10 +109,11 @@ def create_app():
         if not session.get('admin'):
             flash('You are not authorized to perform this action.', 'danger')
             return redirect(url_for('index'))
-        from forms import AchievementForm
         form = AchievementForm()
         if form.validate_on_submit():
-            image_filename = images.save(form.image.data) if form.image.data else None
+            image_filename = secure_filename(form.image.data.filename) if form.image.data else None
+            if image_filename:
+                form.image.data.save(os.path.join(app.config['UPLOADED_IMAGES_DEST'], image_filename))
 
             achievement = Achievement(
                 name=form.name.data,
@@ -133,19 +134,14 @@ def create_app():
         return render_template('activement-detail.html', data=achievement)
 
     @app.route('/delete_achievement/<int:achievement_id>', methods=['POST'])
-    def delete_achivement(achievement_id):
+    def delete_achievement(achievement_id):
         if not session.get('admin'):
             flash('You are not authorized to perform this action.', 'danger')
             return redirect(url_for('index'))
 
-        # Retrieve the project from the database
         achievement = Achievement.query.get_or_404(achievement_id)
-
-        # Delete the project from the database
         db.session.delete(achievement)
         db.session.commit()
-
-        # Redirect to the home page or any other relevant page
         return redirect(url_for('index'))
 
     return app
