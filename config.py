@@ -3,7 +3,7 @@ import os
 
 class Config:
     SECRET_KEY = os.environ.get("secret_key")
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///portfolio.sqlite3'
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DB_URI", 'sqlite:///portfolio.sqlite3')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     MAIL_SERVER = 'smtp.gmail.com'
     MAIL_PORT = 587
