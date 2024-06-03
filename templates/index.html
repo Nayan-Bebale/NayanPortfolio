@@ -5,6 +5,7 @@
       <h1>Nayan Bebale</h1>
       <p>I'm <span class="typed" data-typed-items="Designer,  Developer, Researcher"></span></p>
     </div>
+
   </section><!-- End Hero -->
 
   <main id="main">
@@ -233,8 +234,8 @@
               <p><em>“System and Method for Automatically Generating an Application Platform Based on User's Requirements Using IoT”</em></p>
               <p>As the Team Leader, System Designer, and Python Developer for the patented project, I orchestrated a multifaceted approach to create an innovative solution that automates the generation of application platforms based on user requirements through IoT integration.</p>
             </div>
-
-            
+            <br>
+            <a href="static/assets/resume/NAYAN_Resume.pdf" download>Download Resume</a>
           </div>
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
             <h3 class="resume-title">Professional Experience</h3>
@@ -339,7 +340,35 @@
       </div>
     </section><!-- End Portfolio Section -->
 
-    <!-- ======= Contact Section ======= -->
+    <!-- ======== Achievement Section ======= -->
+    <section id="achievements" class="portfolio section-bg" style="background-color: #e4edf9">
+      <div class="container">
+
+        <div class="section-title">
+          <h2>Achievements</h2>
+          <p>Proudly presenting the certifications and awards that mark my dedication to skill enhancement and professional development.</p>
+        </div>
+
+        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="100">
+          {% for achievement in achievements %}
+              <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+                  <div class="portfolio-wrap">
+                      <div class="portfolio-images">
+                          <img src="{{ url_for('static', filename='images/' ~ achievement.image) }}" class="img-fluid" alt="{{ achievement.name }}">
+                      </div>
+                      <div class="portfolio-links">
+                          <a href="{{ url_for('static', filename='images/' ~ achievement.image) }}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="{{ achievement.name }}"><i class="bx bx-plus"></i></a>
+                          <a href="{{ url_for('achievement_detail', achievement=achievement.id) }}" title="More Details"><i class="bx bx-link"></i></a>
+                      </div>
+                  </div>
+              </div>
+          {% endfor %}
+        </div>
+
+      </div>
+    </section><!-- End Achievement Section -->
+
+     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
       <div class="container">
 
@@ -417,33 +446,6 @@
       </div>
     </section><!-- End Contact Section -->
 
-    <!-- ======== Certificate Section ======= -->
-    <section id="achievements" class="portfolio section-bg">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Achievements</h2>
-          <p>Proudly presenting the certifications and awards that mark my dedication to skill enhancement and professional development.</p>
-        </div>
-
-        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="100">
-          {% for achievement in achievements %}
-              <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-                  <div class="portfolio-wrap">
-                      <div class="portfolio-images">
-                          <img src="{{ url_for('static', filename='images/' ~ achievement.image) }}" class="img-fluid" alt="{{ achievement.name }}">
-                      </div>
-                      <div class="portfolio-links">
-                          <a href="{{ url_for('static', filename='images/' ~ achievement.image) }}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="{{ achievement.name }}"><i class="bx bx-plus"></i></a>
-                          <a href="{{ url_for('achievement_detail', achievement=achievement.id) }}" title="More Details"><i class="bx bx-link"></i></a>
-                      </div>
-                  </div>
-              </div>
-          {% endfor %}
-        </div>
-
-      </div>
-    </section><!-- End Certificate Section -->
 
   </main><!-- End #main -->
 
