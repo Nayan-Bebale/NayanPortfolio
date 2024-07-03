@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Nayan Portfolio</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{{ url_for('static', filename='assets/img/favicon.ico') }}" rel="icon">
+  <link href="{{ url_for('static', filename='assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500,600,600,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{{ url_for('static', filename='assets/vendor/aos/aos.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{{ url_for('static', filename='assets/css/style.css') }}" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- ======= Mobile nav toggle button ======= -->
+  <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+
+  <!-- ======= Header ======= -->
+  <header id="header">
+    <div class="d-flex flex-column">
+
+      <div class="profile">
+        <img src="{{ url_for('static', filename='assets/img/profile-img1.jpg') }}" alt="" class="img-fluid rounded-circle">
+        <h1 class="text-light"><a href="{{ url_for('index') }}">Nayan Bebale</a></h1>
+        <div class="social-links mt-3 text-center">
+          <a href="https://discord.com/channels/@nayan8696" class="facebook"><i class="bx bxl-discord"></i></a>
+            <a href="https://www.youtube.com/channel/UCPTsPNWtoxHduo5pj7rl_0Q" class="twitter"><i class="bx bxl-youtube"></i></a>
+            <a href="https://www.linkedin.com/in/nayan-bebale-63a62923a/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+          <a href="https://github.com/Nayan-Bebale" class="google-plus"><i class="bx bxl-github"></i></a>
+            <a href="https://www.instagram.com/spin.e10/" class="instagram"><i class="bx bxl-instagram"></i></a>
+        </div>
+      </div>
+
+      <nav id="navbar" class="nav-menu navbar">
+        <ul>
+          <li><a href="{{ url_for('index') }}#hero" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a></li>
+          <li><a href="{{ url_for('index') }}#about" class="nav-link scrollto"><i class="bx bx-user"></i> <span>About</span></a></li>
+          <li><a href="{{ url_for('index') }}#resume" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Resume</span></a></li>
+          <li><a href="{{ url_for('index') }}#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Portfolio</span></a></li>
+          <li><a href="{{ url_for('index') }}#achievements" class="nav-link scrollto"><i class="bx bx-trophy"></i> <span>Achievements</span></a></li>
+            <li><a href="{{ url_for('index') }}#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
+        </ul>
+      </nav><!-- .nav-menu -->
+    </div>
+  </header><!-- End Header -->
+    <main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+      <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center">
+          <h2>Achievement Details</h2>
+          <ol>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            <li>Achievement Details</li>
+          </ol>
+        </div>
+
+      </div>
+    </section><!-- End Breadcrumbs -->
+
+    <!-- ======= Portfolio Details Section ======= -->
+    <section id="portfolio-details" class="portfolio-details">
+      <div class="container">
+
+        <div class="row gy-4">
+
+          <div class="col-lg-8">
+            <div class="portfolio-details-slider swiper">
+              <div class="swiper-wrapper align-items-center">
+
+                <div class="swiper-slide">
+                  <img src="{{ url_for('static', filename='images/' ~ data.image) }}" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="portfolio-info">
+              <h3>Achievement information</h3>
+              <ul>
+                <li><strong>Name</strong>: {{data.name}}</li>
+                <li><strong>Organization</strong>: {{data.organization}}</li>
+                <li><strong>Date</strong>: {{data.date}}</li>
+              </ul>
+            </div>
+            <div class="portfolio-description">
+              <h2>About Achievement Details</h2>
+              <p>{{ data.description|safe }}</p>
+            </div>
+
+          {% if session.get('admin') %}
+            <form action="{{ url_for('delete_achievement', achievement_id=data.id) }}" method="post">
+                <button type="submit" class="btn btn-danger">Delete Achievement</button>
+            </form>
+          {% endif %}
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Portfolio Details Section -->
+
+  </main><!-- End #main -->
+{% include "footer.html" %}

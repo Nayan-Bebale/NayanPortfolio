@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicons -->
+    <link href="{{ url_for('static', filename='assets/img/favicon.ico') }}" rel="icon">
+    <link href="{{ url_for('static', filename='assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
+    <title>Add Project</title>
+      <style>
+          /* Style for container */
+            .container {
+              max-width: 600px;
+              margin: 0 auto;
+              padding: 20px;
+            }
+
+            /* Style for form elements */
+            form div {
+              margin-bottom: 10px;
+            }
+
+            /* Style for form labels */
+            form label {
+              font-weight: bold;
+            }
+
+            /* Style for form inputs */
+            form input[type="text"],
+            form textarea {
+              width: 100%;
+              padding: 8px;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+              box-sizing: border-box;
+              margin-top: 4px;
+              margin-bottom: 4px;
+            }
+
+            /* Style for form submit button */
+            form input[type="submit"] {
+              background-color: #007bff;
+              color: #fff;
+              padding: 10px 20px;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+            }
+
+            /* Hover effect for form submit button */
+            form input[type="submit"]:hover {
+              background-color: #0056b3;
+            }
+
+            /* Error message style */
+            .error-message {
+              color: red;
+            }
+
+      </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Add Project</h1>
+      <form method="POST" action="" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div>
+          {{ form.name.label }}<br>
+          {{ form.name(size=32) }}<br>
+          {% for error in form.name.errors %}
+            <span style="color: red;">[{{ error }}]</span><br>
+          {% endfor %}
+        </div>
+        <div>
+          {{ form.website_link.label }}<br>
+          {{ form.website_link(size=64) }}<br>
+          {% for error in form.website_link.errors %}
+            <span style="color: red;">[{{ error }}]</span><br>
+          {% endfor %}
+        </div>
+        <div>
+          {{ form.image1.label }}<br>
+          {{ form.image1() }}<br>
+          {% for error in form.image1.errors %}
+            <span style="color: red;">[{{ error }}]</span><br>
+          {% endfor %}
+        </div>
+        <div>
+          {{ form.image2.label }}<br>
+          {{ form.image2() }}<br>
+          {% for error in form.image2.errors %}
+            <span style="color: red;">[{{ error }}]</span><br>
+          {% endfor %}
+        </div>
+        <div>
+          {{ form.image3.label }}<br>
+          {{ form.image3() }}<br>
+          {% for error in form.image3.errors %}
+            <span style="color: red;">[{{ error }}]</span><br>
+          {% endfor %}
+        </div>
+        <div>
+          {{ form.description.label }}<br>
+          {{ form.description(rows=5, cols=40) }}<br>
+          {% for error in form.description.errors %}
+            <span style="color: red;">[{{ error }}]</span><br>
+          {% endfor %}
+        </div>
+        <div>
+          {{ form.github_link.label }}<br>
+          {{ form.github_link(size=64) }}<br>
+          {% for error in form.github_link.errors %}
+            <span style="color: red;">[{{ error }}]</span><br>
+          {% endfor %}
+        </div>
+        <div>
+            <label for="category">Choose categories:</label><br>
+            {{ form.category(class="form-control", multiple=True) }}
+            {% for error in form.category.errors %}
+                <span style="color: red;">[{{ error }}]</span><br>
+            {% endfor %}
+        </div>
+        <div>
+          {{ form.submit() }}
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
