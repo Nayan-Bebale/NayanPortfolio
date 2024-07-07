@@ -42,7 +42,19 @@ projects = [
         "description": "<p>This Python script creates a Spotify playlist of the top 100 songs on the Billboard 100 chart for a specified date. It first scrapes the Billboard website to get the list of songs, then uses the Spotify API to search for the songs and add them to a new playlist.</p>",
         "github_link": "https://github.com/Nayan-Bebale/Spotify-playlist",
         "category": "other"
+    },
+    {
+        "id": 5,
+        "name": "UdyogSarthi",
+        "website_link": "https://www.youtube.com/watch?v=P_vCppADVvM&t=80s",
+        "image1": "udyogsarthi1.png",
+        "image2": "udyogsarthi2.png",
+        "image3": "udyogsarthi3.png",
+        "description": "<p>Led the development of UdyogSarthi, an AI-powered web platform for disability inclusion. This Django-based platform connects disabled individuals with education and job opportunities using personalized AI recommendations. Designed and built the secure backend architecture, implemented machine learning algorithms for accurate suggestions, and contributed to a user-friendly UI/UX. The project was recognized as a finalist, showcasing my commitment to social impact and problem-solving through technology.</p>\r\n\r\n<h4>Key Features:</h4>\r\n<ul>\r\n<li>Developed an AI-powered platform for connecting disabled individuals with education and job opportunities.</li>\r\n<li>Utilized Django, APIs, HTML, CSS, and JavaScript.</li>\r\n<li>Architected a secure backend infrastructure and integrated personalized AI-driven recommendations.</li>\r\n<li>Boosted user engagement by 40% and reduced data breaches by 15% within the first quarter.</li>\r\n</ul>",
+        "github_link": "https://github.com/Nayan-Bebale/Udhyog-Sarthi-App",
+        "category": "app"
     }
+
 ]
 achievements = [
     {
@@ -92,5 +104,14 @@ achievements = [
         "date": "Feb 16-18, 2024",
         "description": "<h4>Kriyeta 2.0 Hackathon - Acropolis Institute of Technology and Research, Indore</h4>\r\n        <p>\r\n            I recently had the pleasure of participating in the Kriyeta 2.0 Hackathon, held at Acropolis Institute of Technology and Research, Indore. This event was organized by the Institution Innovation Council in association with AICTE - IDEALAB, and spanned an intense and exhilarating 48 hours.\r\n        </p>\r\n        <p>\r\n            As a Django Developer, I collaborated with an amazing team to create a dynamic website tailored for students. Our project aimed to provide a platform for students to share code, find job opportunities, and interact with each other, fostering a collaborative and supportive community.\r\n        </p>\r\n        <h5>Key Highlights:</h5>\r\n        <ul>\r\n            <li><strong>Team Collaboration:</strong> Worked with a diverse group of talented individuals, leveraging each member's strengths to deliver a comprehensive solution.</li>\r\n            <li><strong>Technologies Used:</strong> Django, HTML, CSS, JavaScript, and PostgreSQL.</li>\r\n            <li><strong>Features Implemented:</strong>\r\n                <ul>\r\n                    <li>Code sharing and repository management.</li>\r\n                    <li>Job postings and search functionality.</li>\r\n                    <li>Interactive forums and messaging for student collaboration.</li>\r\n                </ul>\r\n            </li>\r\n        </ul>\r\n        <p>\r\n            Participating in Kriyeta 2.0 was a valuable experience that showcased our ability to work under pressure, think creatively, and develop practical solutions. It was an honor to be part of such an innovative event and contribute to a project that supports the student community.\r\n        </p>",
         "image": "kriyeta.jpg"
+    },
+    {
+        "id": 7,
+        "name": "Patent",
+        "organization": "Sage University, Indore",
+        "date": "May 12, 2023",
+        "description": "<h4>Patent: System and Method for Automatically Generating an Application Platform Based on User's Requirements Using IoT</h4>\r\n        <p>\r\n            As the Team Leader, System Designer, and Python Developer for this patented project, I orchestrated a multifaceted approach to create an innovative solution that automates the generation of application platforms based on user requirements through IoT integration.\r\n        </p>\r\n        <h5>Role and Responsibility:</h5>\r\n        <ul>\r\n            <li><strong>Leadership and Team Guidance:</strong> Directed the team and ensured successful project completion.</li>\r\n            <li><strong>System Design Expertise & Python:</strong> Designed the system architecture and developed it using Python.</li>\r\n            <li><strong>Documentation & Process Management:</strong> Managed the documentation and streamlined the development process.</li>\r\n            <li><strong>Communication and Representation:</strong> Acted as the primary communicator and representative for the project.</li>\r\n        </ul>\r\n        <p>\r\n            The patent was issued on May 12, 2023, in Indore, India (Patent No.: 452015).\r\n        </p>",
+        "image": "patent_image.jpg"
     }
+
 ]
