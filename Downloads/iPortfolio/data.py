@@ -1,7 +1,7 @@
 projects = [
     {
         "id": 1,
-        "name": "SmartServer",
+        "name": "SmartSaver",
         "website_link": "http://nayan23.pythonanywhere.com/",
         "image1": "SmartServer1.png",
         "image2": "SmartServer2.png",
